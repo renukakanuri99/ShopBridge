@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "name": "Soap1",
+      "description": "Beauty",
+      "id": 1,
+      "price": 10
+    },
+    {
+      "id": 2,
+      "name": "5 Star",
+      "description": "Food",
+      "price": 20
+    },
+    {
+      "id": 3,
+      "name": "Dairy Milk",
+      "description": "Food",
+      "price": 10
+    },
+    {
+      "id": 4,
+      "name": "Hey",
+      "description": "Hello",
+      "price": 10
+    }
+  ]
+}

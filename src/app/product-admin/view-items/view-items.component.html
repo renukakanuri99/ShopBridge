@@ -1,0 +1,95 @@
+<section class="">
+  <div class="col-lg-10 m-auto">
+    <div class="m-3 text-right"><button class="btn btn-primary" (click)="addItemClick()">Add</button></div>
+    <table class="table table-responsive-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price</th>
+          <th scope="col">Modify</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of itemList; let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{item.name}}</td>
+          <td>{{item.description}}</td>
+          <td>{{item.price}}</td>
+          <td>
+            <button class="btn mr-3 pl-0" (click)="updateItemClick(item)">Edit</button>
+            <button class="btn" (click)="showDeleteConfirmation(item)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Add or Update Item Modal -->
+<div *ngIf="showAddPopup" class="modal fade show" tabindex="-1" aria-hidden="false" role="dialog" style="display: block"
+  [attr.data-backdrop]="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h4 class="modal-title">{{addEditText}} Item</h4>
+        <button type="button" class="close text-white" data-dismiss="modal" (click)="togglePopUp()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form #itemForm="ngForm">
+          <div class="form-group">
+            <label for="itemname">Name:</label>
+            <input type="text" class="form-control" required minlength="3" id="itemname" name="itemName"
+              #itemName="ngModel" [(ngModel)]="item.name">
+            <span class="error-indicator" *ngIf="itemName.touched && itemName.errors?.required">Please enter the
+              name</span>
+            <span class="error-indicator" *ngIf="itemName.touched && itemName.errors?.minlength">Name should be more
+              than 3 characters</span>
+          </div>
+          <div class="form-group">
+            <label for="desc">Description:</label>
+            <input type="text" class="form-control" required minlength="3" id="desc" name="desc" #desc="ngModel"
+              [(ngModel)]="item.description">
+            <span class="error-indicator" *ngIf="desc.touched && desc.errors?.required">Please enter the
+              description</span>
+            <span class="error-indicator" *ngIf="desc.touched && desc.errors?.minlength">Description should be more than
+              3 characters</span>
+          </div>
+          <div class="form-group">
+            <label for="prc">Price:</label>
+            <input type="number" class="form-control" required id="prc" name="price" #price="ngModel"
+              [(ngModel)]="item.price">
+            <span class="error-indicator" *ngIf="price.touched && price.errors?.required">Please enter the price</span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="saveItem()" [disabled]="!itemForm?.valid">Save</button>
+        <button *ngIf="!isEdit" type="button" class="btn btn-warning" (click)="resetForm(itemForm)"
+          [disabled]="!itemForm?.touched">Reset</button>
+        <button type="button" class="btn btn-danger mr-3" data-dismiss="modal" (click)="togglePopUp()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Popup -->
+<div *ngIf="showDeletePopup" class="modal fade show" tabindex="-1" aria-hidden="false" role="dialog"
+  style="display: block" [attr.data-backdrop]="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h4 class="modal-title">Alert</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the item named <b>{{item?.name}}</b>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="deleteItem()">Confirm</button>
+        <button type="button" class="btn btn-danger mr-3" data-dismiss="modal"
+          (click)="toggleDeleteConfirmation()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
